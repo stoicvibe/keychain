@@ -10,7 +10,7 @@
     <property name="BUILD" value="179450" />
     <property name="APP_VERSION_MAJOR" value="1"/>
     <property name="APP_VERSION_MINOR" value="0"/>
-    <property name="APP_VERSION_BUILD" value="1"/>
+    <property name="APP_VERSION_BUILD" value="2"/>
 
     <import file="${DANGER_HOME}/tools/build_common.xml"/>
 </project>
