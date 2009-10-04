@@ -1,34 +1,16 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE project [<!ENTITY IncludeCommon SYSTEM "../../tools/build_common.xml">]>
+<project name="keychain" default="run">
+    <property environment="env"/>
+    <property name="DANGER_HOME" value="${env.DANGER_HOME}"/>
+    <property name="APP_CLASS_NAME"  value="keychain"/>
+    <property name="APP_PACKAGE_NAME" value="com.frozenbutterfly.keychain"/>
 
-<project name="RTTTL keychain testing app" default="build" basedir=".">
-    <property name="APPNAME" value="keychain"/>
-
-    <!-- The packagename that your application is in. -->
-    <property name="PACKAGENAME" value="com.frozenbutterfly.keychain"/>
-
-    <!-- The locale that your application lives in. -->
-    <property name="LOCALE"      value="en_US"/>
-
-    <!-- The screen you're building for. Valid values are "color" and "gray" -->
-    <property name="SCREEN" value="color"/>
-
-    <!-- The carrier you're targeting. Current valid values are "t-mobile" and "suncom" - more to come later. -->
-    <property name="CARRIER" value="t-mobile"/>
-
-    <!--
-		 The major and minor version number of your app (as in 1.0). This is used
-		 by the Catalog system only.
-    -->
+    <property name="VERSION" value="4.4" />
+    <property name="BUILD" value="179450" />
     <property name="APP_VERSION_MAJOR" value="1"/>
     <property name="APP_VERSION_MINOR" value="0"/>
+    <property name="APP_VERSION_BUILD" value="1"/>
 
-    <!--
-		 The build number as specified by your build system. Don't sweat it if you
-		 don't have one. Also for the Catalog only.
-    -->
-    <property name="APP_VERSION_BUILD" value="0"/>
-
-    &IncludeCommon;
+    <import file="${DANGER_HOME}/tools/build_common.xml"/>
 </project>

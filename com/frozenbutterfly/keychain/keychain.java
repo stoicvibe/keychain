@@ -18,6 +18,12 @@
  * You should have received a copy of the GNU General Public License    
  * along with this program; if not, write to the Free Software          
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *
+ * History
+ * =======
+ * Author      Date      Modification
+ * ----------------------------------------------------------------------
+ * Kyle Coury  4/4/07    Removed skdr.net security code and updated createDataStore method
  */
 
 package com.frozenbutterfly.keychain;
@@ -29,8 +35,6 @@ import danger.util.*;
 import danger.util.DEBUG;
 import java.util.Random;
 
-import net.skdr.security.Security;
-
 public class keychain extends Application implements Resources, Commands {
 	private static final boolean	debug = true;
 
@@ -41,7 +45,7 @@ public class keychain extends Application implements Resources, Commands {
 	public byte[]						pass = null;
 
 	public keychain() {
-		storedData = DataStore.createDataStore("keychainV1", true, true);
+		storedData = DataStore.createDataStore("keychainV1", true);
 
 		//storedData.removeAllRecords();
 
@@ -52,7 +56,7 @@ public class keychain extends Application implements Resources, Commands {
 	}
 
 	public void resume() {
-		if (debug || Security.hasNotExpired("lgj9kl3ofblgj9kl3ofb", true)) {
+		if (debug) {
 			login.show();
 			login.setFocusedChild(login.passwordField);
 			login.passwordField.clear();

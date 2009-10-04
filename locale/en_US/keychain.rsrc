@@ -1,16 +1,39 @@
-# -*- coding: utf-8 -*-
-
 package "com.frozenbutterfly.keychain"
 
-interface "../../com/frozenbutterfly/keychain/Resources.java"
-events "../../com/frozenbutterfly/keychain/Commands.java"
+interface "{source}com/frozenbutterfly/keychain/Resources.java"
+events "{source}com/frozenbutterfly/keychain/Commands.java"
 
-include "security.rsrc"
-
-string		ID_APP_NAME				"keychain"
+string      ID_CHOOSER_CATEGORY     "pim"
+string		ID_APP_NAME				"KeyChain"
 string		ID_APP_CLASS 			"com.frozenbutterfly.keychain.keychain"
 string		ID_LOCALE   			"en_US"
 
-bitmap		ID_LARGE_ICON			"graphics/LargeIcon.png"
-bitmap		ID_SMALL_ICON 			"graphics/SmallIcon.png"
-bitmap		ID_SPLASH_SCREEN		"graphics/splashscreen.png"
+bitmap		ID_LARGE_ICON			"{base}LargeIcon.png"
+bitmap		ID_SMALL_ICON 			"{base}SmallIcon.png"
+bitmap		ID_MINI_ICON 			"{base}MiniIcon.png"
+bitmap		ID_SPLASH_SCREEN		"{base}splashscreen.png"
+
+splashScreen ID_SPLASH_SCREEN_RESOURCE
+    @ IF {screen} = wqvga
+            wqvgaSplashScreen
+    @ ELSEIF {screen} = qvga
+            qvgaSplashScreen
+    @ ENDIF 
+     image
+         bitmap = ID_SPLASH_SCREEN
+          alignWithParentRight = 0
+          alignWithParentTop = 0
+ 
+     staticTextBox
+         id = ID_NAME_FIELD
+         text = ID_APP_NAME
+         alignWithParentLeft = 2
+         alignWithParentTop = 0
+         fillToRight = 2
+         transparent
+         doesNotHaveBorder        
+         lineSpacing = -10  # closer if multi-line
+         @ IF {os_version} >= 4.0
+            defaultAppTitleLineSpacing
+         @ ENDIF
+endSplashScreen

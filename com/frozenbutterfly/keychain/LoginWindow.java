@@ -18,6 +18,12 @@
  * You should have received a copy of the GNU General Public License    
  * along with this program; if not, write to the Free Software          
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *
+ * History
+ * =======
+ * Author      Date        Modification
+ * ----------------------------------------------------------------------
+ * Kyle Coury  12/22/07    Updated layout, updated createDataStore method, added try catch block to Cipher instance
  */
 
 package com.frozenbutterfly.keychain;
@@ -49,7 +55,7 @@ public class LoginWindow extends ScreenWindow implements Resources, Commands
 
 	public LoginWindow(keychain app)
 	{
-		passwordData = DataStore.createDataStore("passwordData", true, true);
+		passwordData = DataStore.createDataStore("passwordData", true);
 		//passwordData.removeAllRecords();
 
 		this.app = app;
@@ -117,7 +123,7 @@ public class LoginWindow extends ScreenWindow implements Resources, Commands
 		cancelButton.setEvent(new Event(this, PASSWORD_CANCEL));
 
 		okButton.setWidth(60);
-		cancelButton.setWidth(60);
+		cancelButton.setWidth(67);
 
 		okButton.setLeft((view.getWidth() - (okButton.getWidth() + cancelButton.getWidth() + 5)) / 2);
 		cancelButton.setLeft(okButton.getLeft() + 5 + cancelButton.getWidth());
@@ -127,7 +133,7 @@ public class LoginWindow extends ScreenWindow implements Resources, Commands
 		okButton.show();
 		cancelButton.show();
 
-		setTitle("keychain");
+		setTitle("KeyChain");
 		setFocusedChild(passwordField);
 	}
 
@@ -155,7 +161,14 @@ public class LoginWindow extends ScreenWindow implements Resources, Commands
 						byte[]		data;
 						byte[]		test = PASSWORD_TEST_DATA.getBytes();
 
-						cipher.init(app.pass, null);
+						try
+				        {
+						     cipher.init(app.pass, null);
+						}
+						catch (CipherException ex)
+				        {
+				            ex.printStackTrace();
+				        }
 
 						/*
 							The size of data sent into and out of encrypt/decrypt must be a multiple of

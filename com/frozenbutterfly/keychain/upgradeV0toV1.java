@@ -18,6 +18,12 @@
  * You should have received a copy of the GNU General Public License    
  * along with this program; if not, write to the Free Software          
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *
+ * History
+ * =======
+ * Author      Date        Modification
+ * ----------------------------------------------------------------------
+ * Kyle Coury  4/4/07    Updated createDataStore method and added try catch blocks to Cipher instance
  */
 
 package com.frozenbutterfly.keychain;
@@ -32,7 +38,7 @@ public class upgradeV0toV1
 {
 	public static void upgrade(KeyList keylist, keychain app) {
 		int			i;
-		DataStore	storedData = DataStore.createDataStore("keychain", true, true);
+		DataStore	storedData = DataStore.createDataStore("keychain", true);
 
 if (storedData.getRecordCount() > 0) {
 	DEBUG.p("[KEYCHAIN] You have " + storedData.getRecordCount() + " records waiting to be upgraded");
@@ -138,7 +144,7 @@ DEBUG.p("[KEYCHAIN] Upgrading item: " + getName(data, app.pass));
 
 	private static String decrypt(byte[] value, byte[] pass) {
 		Cipher		cipher	= Cipher.getInstance("blowfish");
-
+        //keychain app = new keychain();
 		if (value != null && cipher != null && pass != null) {
 			int			bs	= cipher.getBlockSize();
 
@@ -155,7 +161,14 @@ DEBUG.p("[KEYCHAIN] Upgrading item: " + getName(data, app.pass));
 				value = data;
 			}
 
-			cipher.init(pass, null);
+			try
+	        {
+			     cipher.init(pass, null);
+			}
+			catch (CipherException ex)
+	        {
+	            ex.printStackTrace();
+	        }
 			value = cipher.decrypt(value);
 
 			/* the decrypt call will padd the end with zeros */

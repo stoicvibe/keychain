@@ -18,6 +18,12 @@
  * You should have received a copy of the GNU General Public License    
  * along with this program; if not, write to the Free Software          
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *
+ * History
+ * =======
+ * Author      Date        Modification
+ * ----------------------------------------------------------------------
+ * Kyle Coury  12/22/07    Updated layout, fixed shortcut keys, updated createDataStore method, added try catch blocks to Cipher instances
  */
 
 package com.frozenbutterfly.keychain;
@@ -98,7 +104,7 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 		menu = getActionMenu();
 		menu.removeAllItems();
 
-		menu.addItem("Add Password", MENU_ADD_KEY, 0, null, this).setShortcut('n', true);
+		menu.addItem("Add Password", MENU_ADD_KEY, 0, null, this).setShortcut('n');
 		menu.addItem("Discard Password", MENU_DISCARD_KEY, 0, null, this);
 		menu.addItem("Change Master Password", MENU_CHANGE_PASS, 0, null, this);
 		timeoutItem = menu.addItem("Timeout");
@@ -157,7 +163,7 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 		addDialog.setHideOnButtonEvent(false);
 		addDialog.setShowCancel(false);
 
-		addDialog.addTopFrameButton("Cancel", MENU_CANCEL, 0, null, (char) 0);
+		addDialog.addTopFrameButton("Cancel", MENU_CANCEL, 0, null, Shortcut.CANCEL_BUTTON);
 		addDialog.addBottomFrameButton("Done", MENU_ADD_KEY_DONE, 0, null, Shortcut.BACK_BUTTON);
 		addDialog.addBottomFrameButton("Random Password", MENU_RANDOM_VALUE, 0, null, (char) 0);
 
@@ -170,7 +176,8 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 
 
 		descriptionField = new TextField(true, true);
-		descriptionField.setWidth(200);
+		//descriptionField.setWidth(200);
+		descriptionField.setDynamicWidth(View.WIDTH_FILL_TO_RIGHT, addDialog, 0);
 		Layout.positionBelow(descriptionField, descriptionText, 2);
 
 		if (description != null) {
@@ -189,7 +196,8 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 
 
 		keyField = new TextField(false, false);
-		keyField.setWidth(200);
+		//keyField.setWidth(200);
+		keyField.setDynamicWidth(View.WIDTH_FILL_TO_RIGHT, addDialog, 0);
 		Layout.positionBelow(keyField, keyText, 2);
 
 		if (pass != null) {
@@ -208,16 +216,18 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 
 
 		noteField = new EditText();
-		noteField.setSize(200, 35);
+		//noteField.setSize(200, 35);
+		noteField.setDynamicWidth(View.WIDTH_FILL_TO_RIGHT, addDialog, 0);
+		noteField.setHeight(35);
 		Layout.positionBelow(noteField, noteText, 2);
 
 		if (note != null) {
 			noteField.setText(note);
 		}
 
-		if (description == null) {
+	//	if (description == null) {
 			addDialog.setFocusedChild(descriptionField);
-		}
+	//	}
 
 		addDialog.addChild(noteField);
 		noteField.show();
@@ -247,7 +257,7 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 	}
 
 	private void resetPassword(String newPass) {
-		DataStore		passwordData	= DataStore.createDataStore("passwordData", true, true);
+		DataStore		passwordData	= DataStore.createDataStore("passwordData", true);
 		MD5				md5				= new MD5();
 		Cipher			cipher			= Cipher.getInstance("blowfish");
 		String[]			names				= new String[app.storedData.getRecordCount()];
@@ -277,8 +287,17 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 			byte[]		data;
 			byte[]		test = LoginWindow.PASSWORD_TEST_DATA.getBytes();
 			String		encrypted;
-
-			cipher.init(app.pass, null);
+            
+            try
+	        {
+			     cipher.init(app.pass, null);
+			}
+			catch (CipherException ex)
+	        {
+	            ex.printStackTrace();
+	        }
+	
+			
 
 			/*
 				The size of data sent into and out of encrypt/decrypt must be a multiple of
@@ -413,8 +432,16 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 
 				value = data;
 			}
-
-			cipher.init(app.pass, null);
+            
+               try
+		        {
+				     cipher.init(app.pass, null);
+				}
+				catch (CipherException ex)
+		        {
+		            ex.printStackTrace();
+		        }
+		
 			return(cipher.encrypt(value));
 		}
 
@@ -440,7 +467,15 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 				value = data;
 			}
 
-			cipher.init(app.pass, null);
+			   try
+		        {
+				     cipher.init(app.pass, null);
+				}
+				catch (CipherException ex)
+		        {
+		            ex.printStackTrace();
+		        }
+			
 			value = cipher.decrypt(value);
 
 			/* The decrypt call will padd the end with zeros */
@@ -623,7 +658,8 @@ public class KeyList extends ScreenWindow implements Resources, Commands
 
 				dialog.addChild(newPasswordField2);
 				newPasswordField2.show();
-
+                
+                dialog.setFocusedChild(newPasswordField1);
 				dialog.setListener(this);
 				dialog.setAutoSize(true);
 				dialog.show();
