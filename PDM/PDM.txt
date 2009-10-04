@@ -1,0 +1,12 @@
+KeyChain -- PDM Details
+---------------------------------------------
+
+Item Title:		KeyChain
+Provider Information:	Frozen Butterfly Labs
+Thumbnail:		keychainThumbnail.png
+Description:		Keep track of all of your passwords securely
+Version:		1.0.1
+More Info:		Are you tired of trying to remember all of your passwords and other private information?  KeyChain allows you to store all of this information safely, so they will always be there with you.  All data is protected with blowfish encryption.
+Application Preview: 	keychain1.png
+Price: 			10.00
+Category:		Application/Games

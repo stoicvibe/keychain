@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+package "com.frozenbutterfly.keychain"
+
+interface "../../com/frozenbutterfly/keychain/Resources.java"
+events "../../com/frozenbutterfly/keychain/Commands.java"
+
+include "security.rsrc"
+
+string		ID_APP_NAME				"keychain"
+string		ID_APP_CLASS 			"com.frozenbutterfly.keychain.keychain"
+string		ID_LOCALE   			"en_US"
+
+bitmap		ID_LARGE_ICON			"graphics/LargeIcon.png"
+bitmap		ID_SMALL_ICON 			"graphics/SmallIcon.png"
+bitmap		ID_SPLASH_SCREEN		"graphics/splashscreen.png"
