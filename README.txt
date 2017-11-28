@@ -3,7 +3,7 @@ KeyChain is a password management application for the Danger Hiptop and T-Mobile
 ------------------------
 Changelog
 ------------------------
-v1.0/2 by Kyle Coury
+v1.0/2
 - Added try catch blocks to cipher instances
 - Updated user interface to work on newer devices
 - Updated deprecated createDataStore methods
